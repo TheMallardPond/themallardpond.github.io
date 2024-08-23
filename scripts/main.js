@@ -49,3 +49,7 @@ function signOut() {
 function signUp() {
 
 }
+
+document.body.onload(()=> {
+    document.getElementById("sign-in-button").addEventListener('click', (event)=>{alert('hiya!');});
+});
