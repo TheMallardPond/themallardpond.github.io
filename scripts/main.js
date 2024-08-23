@@ -1,5 +1,5 @@
 
-import { get, set } from "idb-keyval";
+import { get, set } from "https://cdn.jsdelivr.net/npm/idb-keyval@6/+esm";
 
 class User {
     name;
