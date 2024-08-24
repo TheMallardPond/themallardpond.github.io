@@ -59,54 +59,7 @@
         }
     </style>
 
-</head>
-
-<body>
-
-    <div id="root">
-        <div id="hud">
-            <span id="username_banner" onclick="select_color()">Not Signed In</span>
-            <input id="description_input" hidden="true" placeholder="Description" onblur="save_description()" />
-            <!-- <input id="color_input" type="color" /> -->
-            |
-            <button onclick="show_posts()">Forum</button>
-            <button onclick="show_emails()">Emails</button>
-            <button onclick="show_groups()">Groups</button>
-            |
-            <button onclick="change_username()">Change Username</button>
-            <button onclick="change_password()">Change Password</button>
-            |
-            <button onclick="sign_in()">Sign in</button>
-            <button onclick="sign_out()">Sign out</button>
-            <button onclick="sign_up()">Sign up</button>
-        </div>
-        <div id="group_control" hidden="true">
-            <span id="current_group_name">Not in group</span>
-            <button onclick="create_group()">Create Group</button>
-            <!-- <button onclick="join_group()">Join Group</button> -->
-            <button onclick="leave_group()">Leave Group</button>
-            | Groups you're in:
-            <select id="group-select" onchange="select_group()">
-            </select>
-            | All groups:
-            <select id="global-group-select" onchange="enter_group()">
-            </select>
-        </div>
-        <div id="email_address_control" hidden="true">
-            <input id="email_address_input" placeholder="Address" />
-        </div>
-        <div id="chat_control" hidden="true">
-            <input id="chat_text" style="width:500px;" placeholder="Send something..." />
-            <button id="send_message" onclick="send_message()">Send</button>
-        </div>
-        <br>
-        <hr>
-        <div id="messages"></div>
-    </div>
-
-</body>
-
-<script type="module">
+    <script type="module">
 
     import { get, set, update } from "https://cdn.jsdelivr.net/npm/idb-keyval@6/+esm";
 
@@ -971,6 +924,8 @@
         alert(_help_text);
     }
 
+    document.body.onload = () => {
+
     load_users();
 
     load_posts();
@@ -986,7 +941,56 @@
         }
     });
 
+    }
+
 
 </script>
+
+</head>
+
+<body>
+
+    <div id="root">
+        <div id="hud">
+            <span id="username_banner" onclick="select_color()">Not Signed In</span>
+            <input id="description_input" hidden="true" placeholder="Description" onblur="save_description()" />
+            <!-- <input id="color_input" type="color" /> -->
+            |
+            <button onclick="show_posts()">Forum</button>
+            <button onclick="show_emails()">Emails</button>
+            <button onclick="show_groups()">Groups</button>
+            |
+            <button onclick="change_username()">Change Username</button>
+            <button onclick="change_password()">Change Password</button>
+            |
+            <button onclick="sign_in()">Sign in</button>
+            <button onclick="sign_out()">Sign out</button>
+            <button onclick="sign_up()">Sign up</button>
+        </div>
+        <div id="group_control" hidden="true">
+            <span id="current_group_name">Not in group</span>
+            <button onclick="create_group()">Create Group</button>
+            <!-- <button onclick="join_group()">Join Group</button> -->
+            <button onclick="leave_group()">Leave Group</button>
+            | Groups you're in:
+            <select id="group-select" onchange="select_group()">
+            </select>
+            | All groups:
+            <select id="global-group-select" onchange="enter_group()">
+            </select>
+        </div>
+        <div id="email_address_control" hidden="true">
+            <input id="email_address_input" placeholder="Address" />
+        </div>
+        <div id="chat_control" hidden="true">
+            <input id="chat_text" style="width:500px;" placeholder="Send something..." />
+            <button id="send_message" onclick="send_message()">Send</button>
+        </div>
+        <br>
+        <hr>
+        <div id="messages"></div>
+    </div>
+
+</body>
 
 </html>
