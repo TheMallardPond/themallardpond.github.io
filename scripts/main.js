@@ -50,6 +50,6 @@ function signUp() {
 
 }
 
-document.body.onload(()=> {
+document.body.onload = function () {
     document.getElementById("sign-in-button").addEventListener('click', (event)=>{alert('hiya!');});
-});
+};
