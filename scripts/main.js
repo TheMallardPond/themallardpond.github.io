@@ -39,11 +39,15 @@ function saveUsers() {
 }
 
 function signIn() {
+    console.log('inside sign in func');
     set("hello", "hi");
+    console.log('leaving sign in func');
 }
 
 function signOut() {
+    console.log('inside sign out func');
     alert(get("hello"));
+    console.log('leaving sign out func');
 }
 
 function signUp() {
@@ -51,5 +55,12 @@ function signUp() {
 }
 
 document.body.onload = function () {
-    document.getElementById("sign-in-button").addEventListener('click', (event)=>{alert('hiya!');});
+    document.getElementById("sign-in-button").addEventListener('click', (event)=>{
+        alert("'Sign In' clicked");
+        signIn();
+    });
+    document.getElementById("sign-out-button").addEventListener('click', (event)=>{
+        alert("'Sign Out' clicked");
+        signOut();
+    });
 };
