@@ -109,6 +109,12 @@
 <script type="module">
 
     import { get, set, update } from "https://cdn.jsdelivr.net/npm/idb-keyval@6/+esm";
+
+    set("users", JSON.stringify([{username: "dev", password: "dev123",emails: [], color: "seagreen", description: "uhhh... idk",
+                                  last_group_id: 0, likes: 10, notifications: ""}]));
+    set("posts", JSON.stringify([{sender_id: 0, content: "pls work", likes: 2}]));
+    set("groups", JSON.stringify([{member_ids: [0], posts: [{sender_id: 0, content: "pls work", likes: 2}],
+                                  name: "my group!", description: "it's my group!", password: "join", owner_id: 0}]));
     
     /**
      * TO DO:
