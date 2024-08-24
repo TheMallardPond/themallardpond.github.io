@@ -939,9 +939,12 @@
             send_message();
             document.getElementById("chat_text").blur();
         }
-    });
 
-    }
+        document.getElementById("sign-in-button").addEventListener("click", (ev) => sign_in());
+        document.getElementById("sign-out-button").addEventListener("click", (ev) => sign_out());
+        document.getElementById("sign-up-button").addEventListener("click", (ev) => sign_up());
+        document.getElementById("send_message").addEventListener("click", (ev) => send_message());
+    });
 
 
 </script>
@@ -952,31 +955,31 @@
 
     <div id="root">
         <div id="hud">
-            <span id="username_banner" onclick="select_color()">Not Signed In</span>
-            <input id="description_input" hidden="true" placeholder="Description" onblur="save_description()" />
+            <span id="username_banner" >Not Signed In</span>
+            <input id="description_input" hidden="true" placeholder="Description"  />
             <!-- <input id="color_input" type="color" /> -->
             |
-            <button onclick="show_posts()">Forum</button>
-            <button onclick="show_emails()">Emails</button>
-            <button onclick="show_groups()">Groups</button>
+            <button id="forum-button">Forum</button>
+            <button id="emails-button">Emails</button>
+            <button id="groups-button">Groups</button>
             |
-            <button onclick="change_username()">Change Username</button>
-            <button onclick="change_password()">Change Password</button>
+            <button id="change-username-button">Change Username</button>
+            <button id="change-password-button">Change Password</button>
             |
-            <button onclick="sign_in()">Sign in</button>
-            <button onclick="sign_out()">Sign out</button>
-            <button onclick="sign_up()">Sign up</button>
+            <button id="sign-in-button">Sign in</button>
+            <button id="sign-out-button">Sign out</button>
+            <button id="sign-up-button">Sign up</button>
         </div>
         <div id="group_control" hidden="true">
             <span id="current_group_name">Not in group</span>
-            <button onclick="create_group()">Create Group</button>
+            <button id="create-group-button">Create Group</button>
             <!-- <button onclick="join_group()">Join Group</button> -->
-            <button onclick="leave_group()">Leave Group</button>
+            <button id="leave-group-button">Leave Group</button>
             | Groups you're in:
-            <select id="group-select" onchange="select_group()">
+            <select id="group-select">
             </select>
             | All groups:
-            <select id="global-group-select" onchange="enter_group()">
+            <select id="global-group-select">
             </select>
         </div>
         <div id="email_address_control" hidden="true">
@@ -984,7 +987,7 @@
         </div>
         <div id="chat_control" hidden="true">
             <input id="chat_text" style="width:500px;" placeholder="Send something..." />
-            <button id="send_message" onclick="send_message()">Send</button>
+            <button id="send_message">Send</button>
         </div>
         <br>
         <hr>
