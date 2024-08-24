@@ -3,7 +3,7 @@
 <html>
 
 <head>
-    <title>The Forum</title>
+    <title>The Mallard Pond</title>
 
     <style>
         body {
@@ -413,47 +413,11 @@
     }
 
     function load_groups() {
-        g_groups = JSON.parse(localStorage.getItem("groups"));
+        get("groups").then((val) => {g_groups = JSON.parse(val);});
     }
 
     function save_groups() {
-        localStorage.setItem("groups", JSON.stringify(g_groups));
-    }
-
-    function show_users_with_notifications() {
-        if (g_users_with_notifications.length == 0) {
-            alert("No user has notifications");
-            return;
-        }
-
-        let message = "";
-
-        for (let i = 0; i < g_users_with_notifications.length; ++i) {
-            message += `${g_users[g_users_with_notifications[i]].username} has notifications\n`;
-        }
-
-        alert(message);
-    }
-
-    function save_users_with_notifications() {
-        localStorage.setItem("users_with_notifications", JSON.stringify(g_users_with_notifications));
-    }
-    function load_users_with_notifications() {
-        g_users_with_notifications = JSON.parse(localStorage.getItem("users_with_notifications"));
-    }
-
-    function set_user_has_notifications(user_id, has_notifications) {
-        if (has_notifications == true) {
-            if (!g_users_with_notifications.includes(user_id)) {
-                g_users_with_notifications.push(user_id);
-            }
-        } else if (has_notifications == false) {
-            if (g_users_with_notifications.includes(user_id)) {
-                g_users_with_notifications.splice(g_users_with_notifications.indexOf(user_id), 1);
-            }
-        }
-
-        save_users_with_notifications();
+        update("groups", (val) => JSON.stringify(g_groups));
     }
 
     function select_color() {
@@ -509,46 +473,6 @@
         }
     }
 
-    function load_banned_passwords() {
-        g_banned_user_passwords = JSON.parse(localStorage.getItem("banned_passwords"));
-    }
-
-    function save_banned_passwords() {
-        localStorage.setItem("banned_passwords", JSON.stringify(g_banned_user_passwords));
-    }
-
-    function command_prompt() {
-        let command = prompt("Enter a command");
-
-        if (command == "ban") {
-            if (g_current_user_id != THE_FORUM_ID) {
-                alert("This operation can be done only by administrators");
-                return;
-            }
-            let target = prompt("Enter username of user to ban:");
-            if (username_exists(target)) {
-                g_banned_user_passwords.push([target, g_users[get_user_id(target)].password]);
-                save_banned_passwords();
-                g_users[get_user_id(target)].password = String(Math.random());
-            } else {
-                alert(`Username \"${target}\" does not exist`);
-                return;
-            }
-        } else if (command == "unban") {
-            if (g_current_user_id != THE_FORUM_ID) {
-                alert("This operation can be done only by administrators");
-                return;
-            }
-            let target = prompt("Enter username of user to unban:");
-            if (username_exists(target)) {
-                g_users[get_user_id(target)].password = "jj";
-            } else {
-                alert(`Username \"${target}\" does not exist`);
-                return;
-            }
-        }
-    }
-
     function group_exists(group_name) {
         for (let i = 0; i < g_groups.length; ++i) {
             if (g_groups[i].name == group_name) {
@@ -580,37 +504,6 @@
         }
 
         return false;
-    }
-
-    // deprecated since group lists where added
-    function join_group() {
-        let group_name = prompt("What is the name of the group you want to join?");
-
-        if (group_name == null) {
-            return;
-        } else if (group_name == "" || !group_exists(group_name)) {
-            alert("That's not the name of a group!");
-            return;
-        } else {
-            if (user_is_in_group(group_name)) {
-                g_current_group_id = get_group_id(group_name);
-                reload_messages();
-            } else {
-                let password = prompt("What is the password for the group?");
-                if (password == g_groups[get_group_id(group_name)].password) {
-                    g_current_group_id = get_group_id(group_name);
-                    g_groups[g_current_group_id].member_ids.push(g_current_user_id);
-                    g_groups[g_current_group_id].posts.push(new Post(THE_FORUM_ID, `<b>@${g_users[g_current_user_id].username}</b> joined the group`));
-                    save_groups();
-                    reload_messages();
-                } else {
-                    alert("Incorrect password!");
-                    return;
-                }
-            }
-        }
-        document.getElementById("current_group_name").innerText = group_name;
-
     }
 
     function leave_group() {
@@ -753,20 +646,24 @@
     }
 
     function load_posts() {
-        g_posts = JSON.parse(localStorage.getItem("posts"));
+        // g_posts = JSON.parse(localStorage.getItem("posts"));
+        get("posts").then((val) => {g_posts = JSON.parse(val);});
     }
 
 
     function save_posts() {
-        localStorage.setItem("posts", JSON.stringify(g_posts));
+        // localStorage.setItem("posts", JSON.stringify(g_posts));
+        update("posts", (val) => JSON.stringify(g_posts));
     }
 
     function load_users() {
-        g_users = JSON.parse(localStorage.getItem("users"));
+        // g_users = JSON.parse(localStorage.getItem("users"));
+        get("users").then((val) => {g_users = JSON.parse(val);});
     }
 
     function save_users() {
-        localStorage.setItem("users", JSON.stringify(g_users));
+        // localStorage.setItem("users", JSON.stringify(g_users));
+        update("users", (val) => JSON.stringify(g_users));
     }
 
     // idk what this does but i think it updates the UI
@@ -834,15 +731,7 @@
             if (correct_password(username, password)) {
                 g_current_user_id = get_user_id(username);
                 g_current_group_id = -1;
-
-                if (g_users[g_current_user_id].notifications != "") {
-                    alert(`Welcome back, ${username}! Some things have happened since you were last here:\n${g_users[g_current_user_id].notifications}`);
-                    g_users[g_current_user_id].notifications = "";
-                } else {
                     alert(`Welcome back, ${username}!`);
-                }
-
-                set_user_has_notifications(g_current_user_id, false);
             } else {
                 alert("Incorrect password.");
                 return;
@@ -980,7 +869,6 @@
         } else if (g_mode == "group") {
             if (g_current_group_id == -1) {
                 document.getElementById("messages").innerHTML = "Not in any group";
-
                 return;
             } else {
                 source = g_groups[g_current_group_id].posts;
@@ -1056,11 +944,8 @@
 
                     g_users[get_user_id(address)].emails.push(new Post(g_current_user_id, post_content));
                     g_users[g_current_user_id].emails.push(new Post(g_current_user_id, `To <b>${address}</b><br>${post_content}`));
-                    g_users[get_user_id(address)].notifications += `\"${g_users[g_current_user_id].username}\" sent you an email\n`;
                     save_users();
                     reload_messages();
-
-                    set_user_has_notifications(get_user_id(address), true);
                 } else {
                     alert(`User with name ${address} does not exist.`);
                 }
@@ -1081,33 +966,6 @@
             } else {
                 g_groups[g_current_group_id].posts.push(new Post(g_current_user_id, post_content));
                 document.getElementById("chat_text").value = "";
-
-                if (g_post_mentions[0] == "everyone") {
-                    for (let i = 0; i < g_groups[g_current_group_id].member_ids.length; ++i) {
-                        if (g_groups[g_current_group_id].member_ids[i] != g_current_user_id) {
-                            g_users[g_groups[g_current_group_id].member_ids[i]].notifications += `${g_users[g_current_user_id].username} mentioned you in the group ${g_groups[g_current_group_id].name}\n`;
-                            set_user_has_notifications(g_groups[g_current_group_id].member_ids[i], true);
-                        }
-                    }
-                } else {
-                    for (let i = 0; i < g_post_mentions.length; ++i) {
-                        if (g_groups[g_current_group_id].member_ids.includes(get_user_id(g_post_mentions[i]))) {
-                            g_users[get_user_id(g_post_mentions[i])].notifications += `${g_users[g_current_user_id].username} mentioned you in the group ${g_groups[g_current_group_id].name}\n`;
-                            set_user_has_notifications(get_user_id(g_post_mentions[i]), true);
-                        }
-                    }
-                }
-
-                // for (let i = 0; i < g_groups[g_current_group_id].member_ids.length; ++i) {
-
-                //     if (g_groups[g_current_group_id].member_ids[i] != g_current_user_id) {
-
-                //         g_users[g_groups[g_current_group_id].member_ids[i]].notifications +=
-                //             `\"${g_users[g_current_user_id].username}\" sent a post in the group \"${g_groups[g_current_group_id].name}\"\n`;
-
-                //         set_user_has_notifications(g_groups[g_current_group_id].member_ids[i], true);
-                //     }
-                // }
             }
 
             reload_messages();
