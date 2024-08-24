@@ -46,7 +46,7 @@ function signIn() {
 
 function signOut() {
     console.log('inside sign out func');
-    alert(await get("hello"));
+    alert(get("hello").then((val) => {console.log(val);}));
     console.log('leaving sign out func');
 }
 
