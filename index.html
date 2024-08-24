@@ -78,12 +78,7 @@
             |
             <button onclick="sign_in()">Sign in</button>
             <button onclick="sign_out()">Sign out</button>
-            <button onclick="sign_up()" disabled>Sign up</button>
-            |
-            <button onclick="show_users_with_notifications()">Notifications</button>
-            <button onclick="help_me()">Help</button>
-            <button onclick="command_prompt()">Prompt</button>
-
+            <button onclick="sign_up()">Sign up</button>
         </div>
         <div id="group_control" hidden="true">
             <span id="current_group_name">Not in group</span>
@@ -285,21 +280,9 @@
         let is_mention_name = false;
         let mention_name = "";
 
-        g_post_mentions = [];
 
         for (let i = 0; i < source.length; ++i) {
-            if (source[i] == '@') {
-                if (is_mention_name) {
-                    is_mention_name = false;
-                    g_post_mentions.push(mention_name);
-                    output += `<b>@${mention_name}</b>`;
-                    mention_name = "";
-                } else {
-                    is_mention_name = true;
-                }
-            } else if (is_mention_name) {
-                mention_name += source[i];
-            } else if (source[i] == '\"') {
+            if (source[i] == '\"') {
                 if (is_quote) {
                     output += "&#147;";
                     is_quote = false;
