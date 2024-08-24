@@ -1,5 +1,5 @@
 
-import { get, set } from "https://cdn.jsdelivr.net/npm/idb-keyval@6/+esm";
+import { get, set, update } from "https://cdn.jsdelivr.net/npm/idb-keyval@6/+esm";
 
 class User {
     name;
@@ -42,12 +42,15 @@ function signIn() {
     console.log('inside sign in func');
     set("hello", "hi");
     console.log('leaving sign in func');
+    update("varia", (val) => "hiya!");
+    
 }
 
 function signOut() {
     console.log('inside sign out func');
     alert(get("hello").then((val) => {console.log(val);}));
     console.log('leaving sign out func');
+    get('varia').then((val) => alert(val));
 }
 
 function signUp() {
