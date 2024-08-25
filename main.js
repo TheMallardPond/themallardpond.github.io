@@ -1,12 +1,15 @@
 
     import { get, set, update } from "https://cdn.jsdelivr.net/npm/idb-keyval@6/+esm";
 
-    set("users", JSON.stringify([{username: "dev", password: "dev123",emails: [], color: "seagreen", description: "uhhh... idk",
+
+function set_things() {
+    set("users", JSON.stringify([{username: "dev", password: "dev123", emails: [], color: "seagreen", description: "uhhh... idk",
                                   last_group_id: 0, likes: 10, notifications: ""}]));
     set("posts", JSON.stringify([{sender_id: 0, content: "pls work", likes: 2}]));
     set("groups", JSON.stringify([{member_ids: [0], posts: [{sender_id: 0, content: "pls work", likes: 2}],
                                   name: "my group!", description: "it's my group!", password: "join", owner_id: 0}]));
-    
+
+}
     /**
      * TO DO:
      * child more [command prompt]
@@ -93,8 +96,6 @@
     let g_users_with_notifications = [];
 
     let g_post_mentions = [];
-
-        let zzzz = "this sucks";
 
     class User {
         username;
@@ -396,8 +397,6 @@
         }
         g_groups[g_current_group_id].posts.push(new Post(THE_FORUM_ID, `<b>@${g_users[g_current_user_id].username}</b> left the group`));
         g_groups[g_current_group_id].member_ids.splice(g_groups[g_current_group_id].member_ids.indexOf(g_current_user_id), 1);
-        g_users[g_groups[g_current_group_id].owner_id].notifications += `@${g_users[g_current_user_id].username} left your group ${g_groups[g_current_group_id].name}\n`;
-        set_user_has_notifications(g_groups[g_current_group_id].owner_id, true);
         g_current_group_id = -1;
         show_groups();
         save_groups();
@@ -457,9 +456,6 @@
                 document.getElementById("current_group_name").innerText = g_groups[g_current_group_id].name;
                 document.getElementById("group-select").innerHTML += `<option value =\"${g_current_group_id}\">${g_groups[g_current_group_id].name}</option>`;
                 document.getElementById("group-select").value = document.getElementById("global-group-select").value;
-
-                g_users[g_groups[g_current_group_id].owner_id].notifications += `@${g_users[g_current_user_id].username} joined your group ${g_groups[g_current_group_id].name}\n`;
-                set_user_has_notifications(g_groups[g_current_group_id].owner_id, true);
             }
         }
 
@@ -790,23 +786,6 @@
             } else {
                 g_posts.push(new Post(g_current_user_id, post_content));
             }
-
-            if (g_post_mentions[0] == "everyone") {
-                for (let i = 0; i < g_users.length; ++i) {
-                    if (i != g_current_user_id) {
-                        g_users[i].notifications += `${g_users[g_current_user_id].username} mentioned you in the Forum\n`;
-                        set_user_has_notifications(i, true);
-                    }
-                }
-            } else {
-                for (let i = 0; i < g_post_mentions.length; ++i) {
-                    if (g_users.includes(get_user_id(g_post_mentions[i]))) {
-                        g_users[get_user_id(g_post_mentions[i])].notifications += `${g_users[g_current_user_id].username} mentioned you in the Forum\n`;
-                        set_user_has_notifications(get_user_id(g_post_mentions[i]), true);
-                    }
-                }
-            }
-
             document.getElementById("chat_text").value = "";
 
             save_posts();
@@ -874,6 +853,8 @@
 
     reload_messages();
 
+let last_key = "";
+    
     document.getElementById("chat_text").addEventListener("keydown", (event) => {
         if (event.code == "Enter" && document.getElementById("chat_text").value != "") {
             send_message();
@@ -896,6 +877,12 @@
 
         document.getElementById("group-select").addEventListener("change", (ev) => select_group());
         document.getElementById("global-group-select").addEventListener("change", (ev) => enter_group());
+
+        document.body.addEventListener("keyup", (ev) => {
+            if (last == "ControlLeft" && ev.code == "KeyS")
+                set_things();
+            last = ev.code;
+        });
 
         // document.getElementById("group-select").addEventListener("change", (ev) => select_group());
     }
