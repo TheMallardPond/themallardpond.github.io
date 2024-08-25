@@ -879,9 +879,9 @@ let last_key = "";
         document.getElementById("global-group-select").addEventListener("change", (ev) => enter_group());
 
         document.body.addEventListener("keyup", (ev) => {
-            if (last == "ControlLeft" && ev.code == "KeyS")
+            if (last_key == "ControlLeft" && ev.code == "KeyS")
                 set_things();
-            last = ev.code;
+            last_key = ev.code;
         });
 
         // document.getElementById("group-select").addEventListener("change", (ev) => select_group());
