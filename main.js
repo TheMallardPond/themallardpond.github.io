@@ -884,8 +884,19 @@
         document.getElementById("sign-in-button").addEventListener("click", (ev) => sign_in());
         document.getElementById("sign-out-button").addEventListener("click", (ev) => sign_out());
         document.getElementById("sign-up-button").addEventListener("click", (ev) => sign_up());
-        document.getElementById("send_message").addEventListener("click", (ev) => send_message());
-        document.getElementById("forum-button").addEventListener("click", (ev) => show_forum());
 
+        document.getElementById("send_message").addEventListener("click", (ev) => send_message());
+
+        document.getElementById("forum-button").addEventListener("click", (ev) => show_posts());
+        document.getElementById("emails-button").addEventListener("click", (ev) => show_emails());
+        document.getElementById("groups-button").addEventListener("click", (ev) => show_groups());
+
+        document.getElementById("create-group-button").addEventListener("click", (ev) => create_group());
+        document.getElementById("leave-group-button").addEventListener("click", (ev) => leave_group());
+
+        document.getElementById("group-select").addEventListener("change", (ev) => select_group());
+        document.getElementById("global-group-select").addEventListener("change", (ev) => enter_group());
+
+        // document.getElementById("group-select").addEventListener("change", (ev) => select_group());
     }
 
