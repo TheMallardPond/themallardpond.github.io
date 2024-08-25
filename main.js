@@ -885,6 +885,7 @@
         document.getElementById("sign-out-button").addEventListener("click", (ev) => sign_out());
         document.getElementById("sign-up-button").addEventListener("click", (ev) => sign_up());
         document.getElementById("send_message").addEventListener("click", (ev) => send_message());
+        document.getElementById("forum-button").addEventListener("click", (ev) => show_forum());
 
     }
 
