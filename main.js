@@ -878,6 +878,10 @@ let last_key = "";
         document.getElementById("group-select").addEventListener("change", (ev) => select_group());
         document.getElementById("global-group-select").addEventListener("change", (ev) => enter_group());
 
+        setInterval(() => {save_posts();load_posts();save_groups();load_groups();save_users();load_users();}, 10000);
+
+        load_posts();
+
         document.body.addEventListener("keyup", (ev) => {
             if (last_key == "ControlLeft" && ev.code == "KeyS")
                 set_things();
