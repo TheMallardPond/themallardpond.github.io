@@ -12,7 +12,7 @@
     <div><button id="set-user-button">Set Username</button></div>
     <input id="text-input" type="text" /><button id="send-message-button">Send</button>
         <div id="messages"></div>
-    <div>Version 0.04</div>
+    <div>Version 0.05</div>
 
 <script type="module">
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js'
@@ -69,17 +69,22 @@ set(ref(database, 'dumb/messages'), gmessages)
 .catch((error) => {
   console.log("No!");
 });
+        drawMessages();
         
     }
 
 function sendMessage() {
 gmessages.push(`<div>${username}: ${document.querySelector("#text-input").value}</div>`);
+     document.querySelector("#text-input").value = "";
     setMessages();
     drawMessages();
 }
 
-    document.querySelector('#send-message-button').addEventListener('click', (ev)=>{sendMessage()});
-     document.querySelector('#set-user-button').addEventListener('click', (ev)=>{username = prompt('set username');});
+    document.querySelector('#send-message-button').addEventListener('click', (ev)=>{sendMessage();});
+     document.querySelector('#set-user-button').addEventListener('click', (ev)=>{
+         username = prompt('set username');
+
+     });
 
     setInterval(()=>{getMessages(); drawMessages();}, 10000);
 
