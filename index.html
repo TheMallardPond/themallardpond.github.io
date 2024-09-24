@@ -11,8 +11,8 @@
     <h2><i>You&#146;ll know it when you see it</i></h2>
     <div><button id="set-user-button">Set Username</button></div>
     <input id="text-input" type="text" /><button id="send-message-button">Send</button>
-        <div id="messages"></div>
-    <div>Version 0.06.3</div>
+        <div id="messages" style="height:600px;overflow:auto;"></div>
+    <div>Version 0.07</div>
 
 <script type="module">
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js'
@@ -74,7 +74,7 @@ set(ref(database, 'dumb/messages'), gmessages)
 
 function sendMessage() {
     getMessages();
-gmessages.push(`<div>${username}: ${document.querySelector("#text-input").value}</div>`);
+gmessages.push(`<div><b>${username}:</b> ${document.querySelector("#text-input").value}</div>`);
      document.querySelector("#text-input").value = "";
     setMessages();
     drawMessages();
