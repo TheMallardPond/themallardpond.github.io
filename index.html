@@ -80,7 +80,7 @@ gmessages.push(`<div>${username}: ${document.querySelector("#text-input").value}
     drawMessages();
 }
 
-const messagesRef = ref(db, "dumb/messages");
+const messagesRef = ref(database, "dumb/messages");
 onValue(messagesRef, (snapshot) => {
   gmessages = snapshot.val();
 });
