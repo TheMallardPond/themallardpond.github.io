@@ -12,7 +12,7 @@
     <div><button id="set-user-button">Set Username</button></div>
     <input id="text-input" type="text" /><button id="send-message-button">Send</button>
         <div id="messages"></div>
-    <div>Version 0.01</div>
+    <div>Version 0.02</div>
 
 <script type="module">
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js'
@@ -38,13 +38,13 @@ let username = "a user";
     
 const dbRef = ref(database);
 
-    let messages = [];
+    let gmessages = [];
 
     function getMessages() {
         get(child(dbRef, 'dumb/messages')).then((snapshot) => {
   if (snapshot.exists()) {
-   messages = (snapshot.val());
-      console.log(messages);
+   gmessages = (snapshot.val());
+      console.log(`getMessages: ${gmessages}`);
   } else {
    alert("No data available");
   }
@@ -55,12 +55,12 @@ const dbRef = ref(database);
 
     function drawMessages() {
         document.querySelector('#messages').innerHTML = "";
-messages.forEach((v, i, a)=>{document.querySelector('#messages').innerHTML += v;});
+gmessages.forEach((v, i, a)=>{document.querySelector('#messages').innerHTML += v;});
         
     }
 
     function setMessages() {
-set(ref(database, 'dumb/messages'), messages)
+set(ref(database, 'dumb/messages'), gmessages)
 .then(() => {
   console.log("Yay!");
 })
@@ -71,7 +71,7 @@ set(ref(database, 'dumb/messages'), messages)
     }
 
 function sendMessage() {
-messages.push(`<div>${username}: ${document.querySelector("#text-input").value}</div>`);
+gmessages.push(`<div>${username}: ${document.querySelector("#text-input").value}</div>`);
     setMessages();
     drawMessages();
 }
