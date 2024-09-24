@@ -107,7 +107,7 @@
 <script type="module">
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js'
     // If you enabled Analytics in your project, add the Firebase SDK for Google Analytics
-    import { getDatabase } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js';
+    import { getDatabase, ref, child, get, set } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js';
 
 // TODO: Replace the following with your app's Firebase project configuration
 // See: https://firebase.google.com/docs/web/learn-more#config-object
@@ -123,6 +123,17 @@ const app = initializeApp(firebaseConfig);
 
 // Initialize Realtime Database and get a reference to the service
 const database = getDatabase(app);
+
+const dbRef = ref(database);
+get(child(dbRef, `users/${userId}`)).then((snapshot) => {
+  if (snapshot.exists()) {
+    console.log(snapshot.val());
+  } else {
+    console.log("No data available");
+  }
+}).catch((error) => {
+  console.error(error);
+});
 
 
     
