@@ -12,7 +12,7 @@
     <div><button id="set-user-button">Set Username</button></div>
     <input id="text-input" type="text" /><button id="send-message-button">Send</button>
         <div id="messages"></div>
-    <div>Version 0.05</div>
+    <div>Version 0.06</div>
 
 <script type="module">
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js'
@@ -61,7 +61,6 @@ gmessages.forEach((v, i, a)=>{document.querySelector('#messages').innerHTML += v
     }
 
     function setMessages() {
-        getMessages();
 set(ref(database, 'dumb/messages'), gmessages)
 .then(() => {
   console.log("Yay!");
@@ -74,19 +73,23 @@ set(ref(database, 'dumb/messages'), gmessages)
     }
 
 function sendMessage() {
+    getMessages();
 gmessages.push(`<div>${username}: ${document.querySelector("#text-input").value}</div>`);
      document.querySelector("#text-input").value = "";
     setMessages();
     drawMessages();
 }
 
+const messagesRef = ref(db, "dumb/messages");
+onValue(messagesRef, (snapshot) => {
+  gmessages = snapshot.val();
+});
+
     document.querySelector('#send-message-button').addEventListener('click', (ev)=>{sendMessage();});
      document.querySelector('#set-user-button').addEventListener('click', (ev)=>{
          username = prompt('set username');
-
      });
 
-    setInterval(()=>{getMessages(); drawMessages();}, 10000);
 
     getMessages();
     drawMessages();
