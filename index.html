@@ -4,105 +4,14 @@
 
 <head>
     <title>The Mallard Pond</title>
-
-    <style>
-        body {
-            margin: 0px;
-            background-color: rgb(250, 250, 250);
-        }
-
-        #root {
-            font-family: 'Segoe UI', sans-serif;
-            padding: 30px;
-
-        }
-
-        #hud {
-            border-left-width: 10px;
-            border-top-width: 4px;
-            border-top-style: solid;
-            border-left-style: solid;
-            padding: 5px;
-
-        }
-
-        #username_banner {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 5px;
-
-        }
-
-        .post {
-            border-top-width: 2px;
-            border-left-width: 8px;
-            /*margin: 8px;
-            margin-bottom: 15px;*/
-            padding: 8px;
-            padding-bottom: 16px;
-            border-top-style: solid;
-            border-left-style: solid;
-        }
-
-        .post-title {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .post-content {
-            font-size: 16px;
-            margin-left: 10px;
-        }
-
-        .post-control {
-            float: right;
-        }
-    </style>
-
 </head>
 
 <body>
-
-    <div id="root">
-        <div id="hud">
-            <span id="username_banner" >Not Signed In</span>
-            <input id="description_input" hidden="true" placeholder="Description"  />
-            <!-- <input id="color_input" type="color" /> -->
-            |
-            <button id="forum-button">Forum</button>
-            <button id="emails-button">Emails</button>
-            <button id="groups-button">Groups</button>
-            |
-            <button id="change-username-button">Change Username</button>
-            <button id="change-password-button">Change Password</button>
-            |
-            <button id="sign-in-button">Sign in</button>
-            <button id="sign-out-button">Sign out</button>
-            <button id="sign-up-button">Sign up</button>
-        </div>
-        <div id="group_control" hidden="true">
-            <span id="current_group_name">Not in group</span>
-            <button id="create-group-button">Create Group</button>
-            <!-- <button onclick="join_group()">Join Group</button> -->
-            <button id="leave-group-button">Leave Group</button>
-            | Groups you're in:
-            <select id="group-select">
-            </select>
-            | All groups:
-            <select id="global-group-select">
-            </select>
-        </div>
-        <div id="email_address_control" hidden="true">
-            <input id="email_address_input" placeholder="Address" />
-        </div>
-        <div id="chat_control" hidden="true">
-            <input id="chat_text" style="width:500px;" placeholder="Send something..." />
-            <button id="send_message">Send</button>
-        </div>
-        <br>
-        <hr>
+    <h1>The Mallard Pond</h1>
+    <h2><i>You&#146;ll know it when you see it</i></h2>
+    <div><button id="set-user-button">Set Username</button></div>
+    <input id="text-input" type="text" /><button id="send-message-button">Send</button>
         <div id="messages"></div>
-    </div>
 
 <script type="module">
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js'
@@ -124,39 +33,54 @@ const app = initializeApp(firebaseConfig);
 // Initialize Realtime Database and get a reference to the service
 const database = getDatabase(app);
 
+let username = "a user";
+    
 const dbRef = ref(database);
-get(child(dbRef, 'idunno')).then((snapshot) => {
+
+    let messages = [];
+
+    function getMessages() {
+        get(child(dbRef, 'dumb/messages')).then((snapshot) => {
   if (snapshot.exists()) {
-   alert(snapshot.val());
+   messages = (snapshot.val());
   } else {
    alert("No data available");
   }
 }).catch((error) => {
   console.error(error);
 });
+}
 
-set(ref(database, 'mydata'), {
-  username: "dev",
-  email: "dev@theforum.com"
-})
+    function drawMessages() {
+        document.querySelector('#messages').innerHTML = "";
+messages.forEach((v, i, a)=>{document.querySelector('#messages').innerHTML += v;});
+        
+    }
+
+    function setMessages() {
+set(ref(database, 'dumb/messages'), messages)
 .then(() => {
   console.log("Yay!");
 })
 .catch((error) => {
   console.log("No!");
 });
+        
+    }
 
-get(child(dbRef, 'mydata')).then((snapshot) => {
-  if (snapshot.exists()) {
-   alert(snapshot.val().email);
-  } else {
-   alert("No data available");
-  }
-}).catch((error) => {
-  console.error(error);
-});
-    
-    console.log("meow!");
+function sendMessage() {
+messages.push(`${username}: ${document.querySelector("#text-input").value}`);
+    setMessages();
+    drawMessages();
+}
+
+    document.querySelector('#send-message-button').addEventListener('click', (ev)=>{sendMessage()});
+     document.querySelector('#set-user-button').addEventListener('click', (ev)=>{username = prompt('set username');});
+
+    setInterval(()=>{getMessages(); drawMessages();}, 10000);
+
+    getMessages();
+    drawMessages();
 </script>
 
 </body>
