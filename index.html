@@ -127,15 +127,34 @@ const database = getDatabase(app);
 const dbRef = ref(database);
 get(child(dbRef, 'idunno')).then((snapshot) => {
   if (snapshot.exists()) {
-    console.log(snapshot.val());
+   alert(snapshot.val());
   } else {
-    console.log("No data available");
+   alert("No data available");
   }
 }).catch((error) => {
   console.error(error);
 });
 
+set(ref(database, 'mydata'), {
+  username: "dev",
+  email: "dev@theforum.com"
+})
+.then(() => {
+  console.log("Yay!");
+})
+.catch((error) => {
+  console.log("No!");
+});
 
+get(child(dbRef, 'mydata')).then((snapshot) => {
+  if (snapshot.exists()) {
+   alert(snapshot.val().email);
+  } else {
+   alert("No data available");
+  }
+}).catch((error) => {
+  console.error(error);
+});
     
     console.log("meow!");
 </script>
