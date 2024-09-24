@@ -104,7 +104,30 @@
         <div id="messages"></div>
     </div>
 
-    <script type="module" src="main.js"></script>
+<script type="module">
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js'
+    // If you enabled Analytics in your project, add the Firebase SDK for Google Analytics
+    import { getDatabase } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js';
+
+// TODO: Replace the following with your app's Firebase project configuration
+// See: https://firebase.google.com/docs/web/learn-more#config-object
+const firebaseConfig = {
+  // ...
+  // The value of `databaseURL` depends on the location of the database
+  databaseURL: "https://idunno-cee4e-default-rtdb.asia-southeast1.firebasedatabase.app"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+
+// Initialize Realtime Database and get a reference to the service
+const database = getDatabase(app);
+
+
+    
+    console.log("meow!");
+</script>
 
 </body>
 
