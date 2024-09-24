@@ -12,7 +12,7 @@
     <div><button id="set-user-button">Set Username</button></div>
     <input id="text-input" type="text" /><button id="send-message-button">Send</button>
         <div id="messages"></div>
-    <div>Version 0.03</div>
+    <div>Version 0.04</div>
 
 <script type="module">
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js'
@@ -61,6 +61,7 @@ gmessages.forEach((v, i, a)=>{document.querySelector('#messages').innerHTML += v
     }
 
     function setMessages() {
+        getMessages();
 set(ref(database, 'dumb/messages'), gmessages)
 .then(() => {
   console.log("Yay!");
