@@ -12,7 +12,7 @@
     <div><button id="set-user-button">Set Username</button></div>
     <input id="text-input" type="text" /><button id="send-message-button">Send</button>
         <div id="messages"></div>
-    <div>Version 0.02</div>
+    <div>Version 0.03</div>
 
 <script type="module">
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js'
@@ -36,11 +36,12 @@ const database = getDatabase(app);
 
 let username = "a user";
     
-const dbRef = ref(database);
+
 
     let gmessages = [];
 
     function getMessages() {
+        const dbRef = ref(database);
         get(child(dbRef, 'dumb/messages')).then((snapshot) => {
   if (snapshot.exists()) {
    gmessages = (snapshot.val());
