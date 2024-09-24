@@ -12,6 +12,7 @@
     <div><button id="set-user-button">Set Username</button></div>
     <input id="text-input" type="text" /><button id="send-message-button">Send</button>
         <div id="messages"></div>
+    <div>Version 0.01</div>
 
 <script type="module">
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js'
@@ -43,6 +44,7 @@ const dbRef = ref(database);
         get(child(dbRef, 'dumb/messages')).then((snapshot) => {
   if (snapshot.exists()) {
    messages = (snapshot.val());
+      console.log(messages);
   } else {
    alert("No data available");
   }
@@ -69,7 +71,7 @@ set(ref(database, 'dumb/messages'), messages)
     }
 
 function sendMessage() {
-messages.push(`${username}: ${document.querySelector("#text-input").value}`);
+messages.push(`<div>${username}: ${document.querySelector("#text-input").value}</div>`);
     setMessages();
     drawMessages();
 }
