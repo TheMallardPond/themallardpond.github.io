@@ -12,7 +12,7 @@
     <div><button id="set-user-button">Set Username</button></div>
     <input id="text-input" type="text" /><button id="send-message-button">Send</button>
         <div id="messages" style="height:300px;overflow:auto;"></div>
-    <div>Version 0.07.1</div>
+    <div>Version 0.08</div>
 
 <script type="module">
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js'
@@ -37,53 +37,51 @@ const database = getDatabase(app);
 let username = "a user";
     
 
-
-    let gmessages = [];
-
     function getMessages() {
+        let messages = [];
         const dbRef = ref(database);
         get(child(dbRef, 'dumb/messages')).then((snapshot) => {
   if (snapshot.exists()) {
-   gmessages = (snapshot.val());
-      console.log(`getMessages: ${gmessages}`);
+   messages = (snapshot.val());
+      console.log(`getMessages: ${messages}`);
   } else {
    alert("No data available");
+      setMessages(["<div><b>hehhe:</b> first message</div>"]);
   }
 }).catch((error) => {
   console.error(error);
 });
+        return messages;
 }
 
-    function drawMessages() {
+    function drawMessages(messages) {
         document.querySelector('#messages').innerHTML = "";
-gmessages.forEach((v, i, a)=>{document.querySelector('#messages').innerHTML += v;});
+messages.forEach((v, i, a)=>{document.querySelector('#messages').innerHTML += v;});
         
     }
 
-    function setMessages() {
-set(ref(database, 'dumb/messages'), gmessages)
+    function setMessages(messages) {
+set(ref(database, 'dumb/messages'), messages)
 .then(() => {
   console.log("Yay!");
 })
 .catch((error) => {
   console.log("No!");
-});
-        drawMessages();
-        
+});     
     }
 
 function sendMessage() {
-    getMessages();
-gmessages.push(`<div><b>${username}:</b> ${document.querySelector("#text-input").value}</div>`);
+    let messages=
+getMessages();
+    messages.push(`<div><b>${username}:</b> ${document.querySelector("#text-input").value}</div>`);
      document.querySelector("#text-input").value = "";
-    setMessages();
+    setMessages(messages);
     drawMessages();
 }
 
 const messagesRef = ref(database, "dumb/messages");
 onValue(messagesRef, (snapshot) => {
-  gmessages = snapshot.val();
-    drawMessages();
+    drawMessages(snapshort.val());
 });
 
     document.querySelector('#send-message-button').addEventListener('click', (ev)=>{sendMessage();});
