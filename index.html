@@ -12,7 +12,7 @@
     <div><button id="set-user-button">Set Username</button></div>
     <input id="text-input" type="text" /><button id="send-message-button">Send</button>
         <div id="messages" style="height:300px;overflow:auto;"></div>
-    <div>Version 0.08</div>
+    <div>Version 0.08.1</div>
 
 <script type="module">
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js'
@@ -55,6 +55,7 @@ let username = "a user";
 }
 
     function drawMessages(messages) {
+        if(messages == undefined) return;
         document.querySelector('#messages').innerHTML = "";
 messages.forEach((v, i, a)=>{document.querySelector('#messages').innerHTML += v;});
         
@@ -81,7 +82,7 @@ getMessages();
 
 const messagesRef = ref(database, "dumb/messages");
 onValue(messagesRef, (snapshot) => {
-    drawMessages(snapshort.val());
+    drawMessages(snapshot.val());
 });
 
     document.querySelector('#send-message-button').addEventListener('click', (ev)=>{sendMessage();});
