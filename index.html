@@ -12,7 +12,7 @@
     <div><button id="set-user-button">Set Username</button></div>
     <input id="text-input" type="text" /><button id="send-message-button">Send</button>
         <div id="messages" style="height:300px;overflow:auto;"></div>
-    <div>Version 0.08.1</div>
+    <div>Version 0.08.2</div>
 
 <script type="module">
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js'
@@ -35,7 +35,8 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
 let username = "a user";
-    
+
+    let gmessages = [];
 
     function getMessages() {
         let messages = [];
@@ -72,17 +73,16 @@ set(ref(database, 'dumb/messages'), messages)
     }
 
 function sendMessage() {
-    let messages=
-getMessages();
-    messages.push(`<div><b>${username}:</b> ${document.querySelector("#text-input").value}</div>`);
+    gmessages.push(`<div><b>${username}:</b> ${document.querySelector("#text-input").value}</div>`);
      document.querySelector("#text-input").value = "";
-    setMessages(messages);
-    drawMessages();
+    setMessages(gmessages);
+    drawMessages(gmessages);
 }
 
 const messagesRef = ref(database, "dumb/messages");
 onValue(messagesRef, (snapshot) => {
-    drawMessages(snapshot.val());
+    gmessages = snapshot.val();
+    drawMessages(gmessages);
 });
 
     document.querySelector('#send-message-button').addEventListener('click', (ev)=>{sendMessage();});
@@ -91,8 +91,8 @@ onValue(messagesRef, (snapshot) => {
      });
 
 
-    getMessages();
-    drawMessages();
+    gmessages = getMessages();
+    drawMessages(gmessages);
 </script>
 
 </body>
